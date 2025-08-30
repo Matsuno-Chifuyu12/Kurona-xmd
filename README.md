@@ -11,4 +11,4 @@ Plugins : 63
 Type : X-MD
 
 # Aperçu du menu
-menu.png
+![Menu Preview](menu.jpg)
