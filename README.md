@@ -11,4 +11,4 @@ Plugins : 63
 Type : X-MD
 
 # Aperçu du menu
-https://files.catbox.moe/ipbha9.jpg
+menu.png
