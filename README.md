@@ -9,3 +9,6 @@ Propriétaire : Chifuyy
 Version : 5.2.0
 Plugins : 63
 Type : X-MD
+
+# Aperçu du menu
+https://files.catbox.moe/ipbha9.jpg
