@@ -3,12 +3,18 @@ Un bot WhatsApp riche en fonctionnalités construit avec Node.js et https://gith
 
 par 🎴 kurona tech 🎴
 
-# 🎴Présentation du bot
-Préfixe : configurable par utilisateur
-Propriétaire : Chifuyy
-Version : 5.2.0
-Plugins : 63
-Type : X-MD
+---
+
+## 🌟 Bot Overview
+
+* **Prefix:** Configurable per user
+* **Owner:** 🎴 Chifuyu 🎴
+* **Version:** 1.0.0
+* **Plugins:** 63
+* **Type:** X-MD
+* **Rich Media Menu:** ✅ (Image + Audio)
+
+---
 
 # Aperçu du menu
 ![Menu Preview](menu.jpg)
