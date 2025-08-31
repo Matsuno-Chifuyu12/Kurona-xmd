@@ -105,7 +105,7 @@ par 🎴 kurona tech 🎴
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/chifuyu/kurona_xmd.git
+git clone https://github.com/Matsuno-chifuyu12/kurona_xmd.git
 cd senku_xmd
 ```
 
