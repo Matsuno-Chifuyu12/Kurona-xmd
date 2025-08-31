@@ -10,7 +10,7 @@ par 🎴 kurona tech 🎴
 * **Prefix:** Configurable per user
 * **Owner:** 🎴 Chifuyu 🎴
 * **Version:** 1.0.0
-* **Plugins:** 63
+* **Plugins:** 56
 * **Type:** X-MD
 * **Rich Media Menu:** ✅ (Image + Audio)
 
