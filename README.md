@@ -99,3 +99,51 @@ par 🎴 kurona tech 🎴
 ╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮
 │  🎴 ℬ𝓎  𝑫𝛯𝑽 ᬁ 𝛫𝑈𝑅𝛩𝛮𝛥🎴
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
+```
+
+---
+
+## ⚡ Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/chifuyu/kurona_xmd.git
+cd senku_xmd
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run the bot:
+
+```bash
+node index.js
+```
+
+---
+
+## 🔑 Authentication
+
+* Scan the **QR code** or use the pairing method to connect your WhatsApp account.
+* Supports **multi-session** authentication.
+
+---
+
+## 🛡 Notes & Tips
+
+* **Admin Only:** Commands like `antilink`, `kick`, `promote`, `demote` require group admin privileges.
+* **Media:** Sends menu image (`menu.jpg`) and audio (`menu.mp3`) for a richer experience.
+* **Responsible Use:** Designed for **educational and personal purposes**. Avoid spamming or misuse.
+* **Custom Prefix:** Users can set a custom prefix via `setprefix`.
+
+---
+
+## 📜 License
+
+MIT License – free to use, modify, and redistribute.
+
+---
