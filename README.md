@@ -106,7 +106,7 @@ par 🎴 kurona tech 🎴
 
 ```bash
 git clone https://github.com/Matsuno-chifuyu12/kurona_xmd.git
-cd senku_xmd
+cd
 ```
 
 2. Install dependencies:
