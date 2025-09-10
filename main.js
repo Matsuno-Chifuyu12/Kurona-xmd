@@ -1,23 +1,45 @@
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴
+// main.js — Point d’entrée du bot
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 import connectToWhatsApp from './auth/authHandler.js';
 import handleIncomingMessage from './events/messageHandler.js';
-import { startBot } from './events/bot.js';
-import { MODE } from './config.js';
-import isValidCode from './utils/validator.js';
+import reconnect from './events/reconnection.js';
+import { loadPlugins } from './libs/plugins.js';
+import logger from './libs/logger.js';
 
-async function initializeApp() {
-  if (MODE === "Default") {
-    await connectToWhatsApp(handleIncomingMessage);
-  } else {
-    const duration = isValidCode(MODE);
-    
-    if (!duration) {
-      console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ 🎴Invalid license key. Contact @dev_kurona 🎴\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-      process.exit(1);
-    }
+(async () => {
+    try {
+        logger.info("🎴 Initialisation du bot 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫...");
 
-    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ✅ Valid key. Duration: " + Math.ceil(duration / (1000 * 60 * 60 * 24)) + " days\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-    startBot(duration);
-  }
-}
+        // Chargement dynamique des plugins/commandes
+        await loadPlugins();
+        logger.success("📂 Commandes et plugins chargés avec succès.");
 
-initializeApp().catch(console.error);
+        // Connexion à WhatsApp
+        const client = await connectToWhatsApp(handleIncomingMessage);
+        logger.success("✅ Connecté à WhatsApp via Baileys.");
+
+        // Gestion de la reconnexion automatique
+        await reconnect(client);
+
+        // Message de bienvenue dans la console
+        console.log(`
+╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮
+┃          🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴
+┃    The Ultimate WhatsApp Experience
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
+
+╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮
+┃ ❃ 𝗠𝗼𝗱𝗲   : Public
+┃ ❃ 𝗢𝘄𝗻𝗲𝗿 : 🎴 𝑫𝛯𝑽 ᬁ 𝛫𝑈𝑅𝛩𝛮𝛥 🎴
+┃ ❃ 𝗣𝗿𝗲𝗳𝗶𝘅 : [ . ]
+┃ ❃ 𝗩𝗲𝗿𝘀𝗶𝗼𝗻 : v1.0.0
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
+
+🎴 Bot lancé avec succès ! 🎴
+        `);
+
+    } 
+})();
