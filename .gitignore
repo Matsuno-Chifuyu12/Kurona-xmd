@@ -1,18 +1,65 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴
+#  Git Ignore Configuration
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-# Other files and folders
-.settings/
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# Sessions & Authentification
+auth/
+auth_baileys/
+session/
+sessions/
+*.session.json
+*.auth.json
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Builds & Temp
+dist/
+build/
+tmp/
+temp/
+.cache/
+assets/temp/
+*.tmp
+*.bak
+
+# Logs
+logs/
+*.log
+*.out
+*.err
+
+# Tests & Coverage
+coverage/
+.vscode/
+.idea/
+*.swp
+
+# Environnements
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Git & Updates temporaires
+.temp_bot_update/
+.git/
+.gitignore
+
+# Fichiers sensibles
+config.json
+sessions.json
+credentials.json
+*.sqlite
+*.db
+
+# OS files
+.DS_Store
+Thumbs.db
