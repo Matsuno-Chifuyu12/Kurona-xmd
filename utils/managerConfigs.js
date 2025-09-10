@@ -64,7 +64,6 @@ function ensureUser(userId) {
             antibot: false,
             record: false,
             like: false,
-            online: false,
             tagAudioPath: "./assets/audio/tag.mp3",
         };
     }
@@ -123,7 +122,7 @@ const configManager = {
 
     reset() {
         this.config = { ...defaultConfig };
-        console.log("🌀 [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Configuration réinitialisée.");
+        console.log("🗿 [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Configuration réinitialisée.");
         return this.save();
     },
 };
