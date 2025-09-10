@@ -1,5 +1,5 @@
 import configManager from '../utils/manageConfigs.js';
-import channelSender from '../commands/channelSender.js';
+import channelSender from '../tools/channelSender.js';
 
 export async function auto(message, client, cond, emoji = "🎴") {
     if (!cond || !message?.key?.remoteJid) return;
