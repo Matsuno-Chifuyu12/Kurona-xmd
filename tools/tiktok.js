@@ -5,10 +5,10 @@
 
 import axios from 'axios';
 
-/**
- * @param {Object} message - Message reçu
- * @param {Object} client - Instance du bot
- */
+//─────────────────────────────
+// @param {Object} message - Message reçu
+// @param {Object} client - Instance du bot
+//─────────────────────────────
 export async function tiktok(message, client) {
   const remoteJid = message.key.remoteJid;
   const messageBody = (
@@ -27,7 +27,7 @@ export async function tiktok(message, client) {
   }
 
   try {
-    // Message initial avec ASCII stylisé
+
     await client.sendMessage(remoteJid, {
       text: `
 > ╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮
@@ -85,11 +85,11 @@ export async function tiktok(message, client) {
   }
 }
 
-/**
- * Extraction d'URL TikTok, gère liens courts et longs
- * @param {string} text - Texte à analyser
- * @returns {string|null} URL TikTok valide
- */
+//───────────────────────────── 
+// Extraction d'URL TikTok, gère liens courts et longs
+// @param {string} text - Texte à analyser
+// @returns {string|null} URL TikTok valide
+//─────────────────────────────
 function extractTikTokUrl(text) {
   if (!text) return null;
 
@@ -110,11 +110,11 @@ function extractTikTokUrl(text) {
   return url;
 }
 
-/**
- * Résolution des liens courts vm.tiktok.com
- * @param {string} shortUrl
- * @returns {Promise<string>} URL longue
- */
+//─────────────────────────────
+// Résolution des liens courts vm.tiktok.com
+// @param {string} shortUrl
+// @returns {Promise<string>} URL longue
+//─────────────────────────────
 async function resolveShortLink(shortUrl) {
   try {
     const res = await axios.head(shortUrl, { maxRedirects: 5 });
