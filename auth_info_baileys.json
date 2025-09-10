@@ -1,0 +1,48 @@
+{
+  "creds": {
+    "noiseKey": {
+      "private": "<TON_BASE64_NOISE_PRIVATE>",
+      "public": "<TON_BASE64_NOISE_PUBLIC>"
+    },
+    "signedIdentityKey": {
+      "private": "<TON_BASE64_ID_PRIV>",
+      "public": "<TON_BASE64_ID_PUB>"
+    },
+    "signedPreKey": {
+      "keyId": 1,
+      "public": "<TON_BASE64_SIGNEDPRE_PUB>",
+      "private": "<TON_BASE64_SIGNEDPRE_PRIV>",
+      "signature": "<TON_BASE64_SIGNATURE>",
+      "created": 1693075200
+    },
+    "registrationId": 123456789,
+    "advSecretKey": "<TON_ADV_SECRET_KEY>",
+    "nextPreKeyId": 2,
+    "serverHasPreKeys": false,
+    "account": {
+      "details": "Kurona-XMD Bot Account",
+      "accountSignatureKey": "<TON_BASE64_ACCOUNT_SIG_KEY>",
+      "accountSignature": "<TON_BASE64_ACCOUNT_SIG>",
+      "keyType": "ed25519"
+    },
+    "me": {
+      "id": "237683614362@s.whatsapp.net",
+      "name": "Kurona-XMD"
+    },
+    "signalIdentities": [
+      {
+        "identifier": {
+          "name": "237683614362@s.whatsapp.net",
+          "deviceId": 0
+        },
+        "identifierKey": "<TON_BASE64_IDENTIFIER_KEY>"
+      }
+    ],
+    "myAppStateKeyId": "AAAA1234"
+  },
+  "keys": {
+    "preKeys": {},
+    "sessions": {},
+    "senderKeys": {}
+  }
+}
