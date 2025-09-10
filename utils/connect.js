@@ -2,10 +2,10 @@
 // 🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴
 //  The Ultimate WhatsApp Experience
 // connect.js
-// Gestion de la connexion WhatsApp via Baileys
+// Gestion de la connexion WhatsApp via @whiskeysockets/baileys
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from 'bailey';
+import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
 import configManager from '../utils/manageConfigs.js';
 import fs from "fs";
 import handleIncomingMessage from '../events/messageHandler.js';
