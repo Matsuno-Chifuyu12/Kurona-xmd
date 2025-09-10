@@ -1,5 +1,5 @@
 import fs from 'fs';
-import start from '../commands/start.js';
+import start from '../tools/start.js';
 import handleCheckJoin from '../utils/checkJoin.js';
 import { isUserInChannel } from '../utils/checkmember.js';
 import sessionCount from '../utils/sessionCount.js';
