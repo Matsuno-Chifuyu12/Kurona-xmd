@@ -5,7 +5,7 @@
 
 /**
  * Envoi de message formaté et uniforme dans tout le bot
- * @param {object} client - Instance Baileys (connexion)
+ * @param {object} client - Instance '@whiskeysockets/bailey' (connexion)
  * @param {object} message - Message reçu (Baileys event)
  * @param {string} content - Texte à envoyer
  * @param {object} options - Options supplémentaires (mentions, quoted…)
