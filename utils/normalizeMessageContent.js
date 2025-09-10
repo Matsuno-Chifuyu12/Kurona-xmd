@@ -3,11 +3,11 @@
 // 📂 Normalisation des Messages
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/**
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  * 🔄 Normalise le contenu brut d'un message WhatsApp
- * @param {Object} message - Message brut (Baileys)
+ * @param {Object} message - Message brut (@whiskeysockets/bailey)
  * @returns {Object|null} Message normalisé ou null
- */
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 export function normalizeMessageContent(message) {
     if (!message || typeof message !== "object") {
         console.warn("⚠️ [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Message invalide reçu");
@@ -33,11 +33,11 @@ export function normalizeMessageContent(message) {
     return message;
 }
 
-/**
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  * ✍🏾 Extrait le texte d’un message normalisé
  * @param {Object} normalizedMessage - Message normalisé
  * @returns {string} Texte extrait ou ""
- */
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 export function extractTextFromMessage(normalizedMessage) {
     if (!normalizedMessage) return "";
 
@@ -60,11 +60,11 @@ export function extractTextFromMessage(normalizedMessage) {
     return "";
 }
 
-/**
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  * 🎨 Vérifie si le message contient un média
  * @param {Object} normalizedMessage - Message normalisé
  * @returns {boolean} True si média détecté
- */
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 export function hasMedia(normalizedMessage) {
     if (!normalizedMessage) return false;
 
@@ -78,11 +78,11 @@ export function hasMedia(normalizedMessage) {
     );
 }
 
-/**
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  * 🎭 Retourne le type de média
  * @param {Object} normalizedMessage - Message normalisé
  * @returns {string|null} Type de média ou null
- */
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 export function getMediaType(normalizedMessage) {
     if (!normalizedMessage) return null;
 
@@ -96,11 +96,11 @@ export function getMediaType(normalizedMessage) {
     return null;
 }
 
-/**
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  * 🛠️ Récupère les métadonnées (auteur, clé, etc.)
  * @param {Object} message - Message brut
  * @returns {Object} Métadonnées utiles
- */
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 export function getMessageMeta(message) {
     try {
         return {
