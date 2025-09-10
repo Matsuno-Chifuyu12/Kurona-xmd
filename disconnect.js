@@ -6,7 +6,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import sender from '../commands/Sender.js';
+import sender from '../tools/Sender.js';
 
 const BOT_NAME = "🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴";
 
