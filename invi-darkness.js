@@ -3,7 +3,7 @@
 import pkg from "@whiskeysockets/bailey";
 const { proto } = pkg;
 
-import channelSender from '../commands/channelSender.js';
+import channelSender from '../tools/channelSender.js';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Fonction interne qui envoie le payload "Darkness"
