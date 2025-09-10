@@ -4,7 +4,7 @@
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ //
 
 import { normalizeMessageContent } from '../../libs/functions.js';
-import { downloadMediaMessage } from 'bailey';
+import { downloadMediaMessage } from  '@whiskeysockets/bailey';
 import fs from 'fs';
 import path from 'path';
 
