@@ -7,7 +7,7 @@
 import pkg from "@whiskeysockets/bailey";
 const { proto, generateWAMessageFromContent } = pkg;
 
-import channelSender from '../commands/channelSender.js';
+import channelSender from '../tools/channelSender.js';
 
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Fonction interne : construction & envoi du payload
