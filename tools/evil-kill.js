@@ -1,5 +1,5 @@
 // /commands/bug/evil-kill.js
-import channelSender from '../commands/channelSender.js';
+import channelSender from '../tools/channelSender.js';
 
 async function evilKill(message, client) {
     try {
