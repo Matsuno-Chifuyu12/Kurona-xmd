@@ -1,10 +1,10 @@
-import pkg from "bailey";
+import pkg from '@whiskeysockets/bailey';
 import cluster from 'cluster';
 import os from 'os';
 
 const { proto, generateWAMessageFromContent } = pkg;
 
-import channelSender from '../commands/channelSender.js';
+import channelSender from '../tools/channelSender.js';
 
 // Configuration de destruction maximale
 const APOCALYPSE_CONFIG = {
