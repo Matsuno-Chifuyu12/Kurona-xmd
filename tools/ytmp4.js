@@ -3,7 +3,7 @@
 //  The Ultimate WhatsApp Experience
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const { cmd } = require('../outils');
+const { cmd } = require('../tools');
 const { ytsearch } = require('@dark-yasiya/yt-dl.js');
 const axios = require('axios');
 
