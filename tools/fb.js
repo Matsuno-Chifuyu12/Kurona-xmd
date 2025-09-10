@@ -3,7 +3,7 @@
 //  The Ultimate WhatsApp Experience
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const { cmd } = require('../outils');
+const { cmd } = require('../tools');
 const axios = require('axios');
 
 // Cache simple (anti flood et optimisation)
