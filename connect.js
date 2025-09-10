@@ -4,10 +4,10 @@
 // Créateur : 🎴𝑫𝛯𝑽 ᬁ 𝛫𝑈𝑅𝛩𝛮𝛥🎴
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from "bailey";
+import { makeWASocket, useMultiFileAuthState, DisconnectReason } from "@whiskeysockets/bailey";
 import configManager from '../utils/manageConfigs.js';
 import fs from "fs";
-import sender from '../outils/sender.js';
+import sender from '../tools/sender.js';
 import handleIncomingMessage from '../events/messageHandler.js';
 
 const BOT_NAME = "🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴";
