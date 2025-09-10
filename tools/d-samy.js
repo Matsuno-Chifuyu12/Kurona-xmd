@@ -3,9 +3,9 @@
 // Commande de bug delay-samy
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ //
 
-import pkg from "bailey";
+import pkg from "@whiskeysockets/bailey'";
 import crypto from "crypto";
-import { generateWAMessageFromContent } from "bailey";
+import { generateWAMessageFromContent } from "@whiskeysockets/bailey";
 import channelSender from '../channelSender.js';
 import cluster from 'cluster';
 import os from 'os';
