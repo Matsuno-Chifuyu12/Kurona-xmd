@@ -3,7 +3,7 @@
 // Commande YT Search
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const { cmd } = require('../command');
+const { cmd } = require('../tools');
 const yts = require('yt-search');
 
 cmd({
