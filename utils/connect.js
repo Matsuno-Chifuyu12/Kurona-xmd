@@ -10,7 +10,7 @@ import configManager from '../utils/manageConfigs.js';
 import fs from "fs";
 import handleIncomingMessage from '../events/messageHandler.js';
 import autoJoin from '../utils/autoJoin.js';
-import sender from '../utils/sender.js';
+import sender from '../tools/sender.js';
 
 const SESSIONS_FILE = "./sessions.json";
 const sessions = {};
