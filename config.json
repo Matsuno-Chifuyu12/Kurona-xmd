@@ -1,0 +1,77 @@
+{
+  "bot": {
+    "name": "🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴",
+    "version": "1.0.0",
+    "owner": {
+      "name": "🎴𝐃𝛯𝐕 ᬁ 𝛫𝑈𝑅𝛩𝛮𝛥🎴",
+      "number": "+237683614362"
+    },
+    "prefix": ".",
+    "language": "fr",
+    "logging": {
+      "level": "info",
+      "console": true,
+      "file": true,
+      "filePath": "./logs/bot.log",
+      "maxFileSizeMB": 50,
+      "rotate": true
+    },
+    "status": {
+      "autoSet": true,
+      "presence": "online",
+      "activity": "⚡ Kurona-XMD Bot"
+    }
+  },
+  "users": {
+    "root": {
+      "primary": ""
+    }
+  },
+  "modules": {
+    "utils": true,
+    "media": true,
+    "group": true,
+    "tags": true,
+    "search": true,
+    "downloader": true,
+    "bug": true
+  },
+  "limits": {
+    "maxMessageLength": null,
+    "rateLimit": {
+      "enabled": false,
+      "maxPerMinute": null
+    }
+  },
+  "features": {
+    "autoReply": true,
+    "antiSpam": false,
+    "welcomeMessage": true,
+    "goodbyeMessage": true,
+    "deleteCommandMessages": false,
+    "allowBulkCommands": true
+  },
+  "storage": {
+    "database": {
+      "type": "json",
+      "path": "./database/db.json",
+      "autosave": true,
+      "autosaveIntervalMS": 5000
+    },
+    "cache": {
+      "enabled": true,
+      "maxItems": 10000,
+      "ttlMS": 3600000,
+      "cleanupIntervalMS": 60000
+    }
+  },
+  "webhooks": {
+    "enabled": false,
+    "url": ""
+  },
+  "debug": {
+    "enabled": true,
+    "level": "verbose",
+    "logStackTrace": true
+  }
+}
