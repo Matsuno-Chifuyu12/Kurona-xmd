@@ -4,7 +4,7 @@
 // Connector module for managing WhatsApp sessions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from 'bailey';
+import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/bailey';
 import fs from 'fs';
 import fsp from 'fs/promises';
 import configManager from '../utils/manageConfigs.js';
