@@ -7,12 +7,12 @@ import { TextEncoder } from 'util';
 
 const SERVER = 's.whatsapp.net';
 
-//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/**
  * Fonction d’auto-join d’un channel/newsletter WhatsApp
  * @param {object} sock - Instance baileys
  * @param {string} channelId - ID du channel/newsletter
  * @param {object} options - Options supplémentaires
- //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
 async function autoJoin(sock, channelId, options = {}) {
     const jid = channelId; // ex: "1203630xxxxxxx@newsletter"
     const queryId = '24404358912487870'; // ID statique requis par WA
