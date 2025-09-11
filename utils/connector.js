@@ -4,11 +4,11 @@
 // Connector module for managing WhatsApp sessions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/bailey';
+import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
 import fs from 'fs';
 import fsp from 'fs/promises';
-import configManager from '../utils/manageConfigs.js';
-import handleIncomingMessage from '../events/messageHandler.js';
+import configManager from '../utils/managerConfigs.js';
+import { handleIncomingMessage } from '../events/messageHandler.js'; 
 import group from '../tools/group.js';
 import autoJoin from '../utils/autoJoin.js';
 
