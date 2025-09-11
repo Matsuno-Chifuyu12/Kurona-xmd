@@ -4,44 +4,9 @@
 // Commande : group.js
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { Sequelize, DataTypes } from "sequelize";
-import config from "../config.js";
-
-//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 🔹 DB Setup pour Antibot
-//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const dbUrl = config.DATABASE;
-let sequelize;
-
-if (!dbUrl) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./antibot.sqlite",
-    logging: false,
-  });
-} else {
-  sequelize = new Sequelize(dbUrl, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: { native: true, ssl: { require: true, rejectUnauthorized: false } },
-    logging: false,
-  });
-}
-
-const Antibot = sequelize.define(
-  "Antibot",
-  {
-    groupId: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
-    enabled: { type: DataTypes.BOOLEAN, defaultValue: true },
-  },
-  { tableName: "Antibot", timestamps: false }
-);
-
-(async () => {
-  await Antibot.sync();
-  console.log("✅ Antibot database ready");
-})();
+// Suppression de Sequelize pour le moment - trop complexe
+// import { Sequelize, DataTypes } from "sequelize";
+// import config from "../config.js";
 
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 🔹 Variables de contrôle
@@ -69,18 +34,9 @@ export function toggleAntilinkKick(message, client) {
 
 export async function toggleAntibot(message, client) {
   antibot = !antibot;
-
-  const jid = message.key.remoteJid;
-  try {
-    let group = await Antibot.findByPk(jid);
-    if (!group) group = await Antibot.create({ groupId: jid, enabled: antibot });
-    else group.enabled = antibot;
-    await group.save();
-
-    client.sendMessage(jid, { text: `⚙️ Antibot ${antibot ? "activé ✅" : "désactivé ❌"}.` });
-  } catch (e) {
-    console.error("Erreur toggleAntibot:", e);
-  }
+  client.sendMessage(message.key.remoteJid, { 
+    text: `⚙️ Antibot ${antibot ? "activé ✅" : "désactivé ❌"}.` 
+  });
 }
 
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -111,7 +67,7 @@ export async function demote(message, client) {
   try {
     await client.groupParticipantsUpdate(remoteJid, [participant], "demote");
     await client.sendMessage(remoteJid, { 
-      text: `⬇️ @${participant.split("@")[0]} n’est plus admin.`,
+      text: `⬇️ @${participant.split("@")[0]} n'est plus admin.`,
       mentions: [participant] 
     });
   } catch (e) {
@@ -282,7 +238,7 @@ export async function welcome(update, client) {
 │     🎴𝛫𝑈𝑅𝛩𝛮𝛥 𝑊𝛯𝐿𝐶𝛩𝛭𝛯 🥳🎴 
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 │  Salut @${name} !
-│  Bienvenue dans le groupe ${namegroup}
+│  Bienvenue dans le groupe
 │  ✨ Description : ${description}  
 │  
 │ Fais-toi plaisir et participe activement !  
@@ -297,7 +253,7 @@ export async function welcome(update, client) {
 │     🎴𝛫𝑈𝑅𝛩𝛮𝛥 𝑮𝛩𝛩𝑫𝑩𝒀𝛯 😔🎴
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 │  
-│  Au revoir @${name} ! Merci d’avoir été parmi nous.  
+│  Au revoir @${name} ! Merci d'avoir été parmi nous.  
 │  Bon courage pour la suite !  
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
         `;
