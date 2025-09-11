@@ -8,6 +8,9 @@ export async function react(message, client) {
                 key: message.key
             }
         });
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi de la réaction:', error);
+        // Vous pouvez choisir de gérer l'erreur différemment selon vos besoins
     }
 }
 
