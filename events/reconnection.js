@@ -1,4 +1,4 @@
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from 'bailey';
+import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/bailey';
 
 import handleIncomingMessage from '../events/messageHandler.js';
 
