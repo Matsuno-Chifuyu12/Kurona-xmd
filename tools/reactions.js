@@ -3,7 +3,7 @@
 // Auto-React Module
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import configManager from '../utils/manageConfigs.js';
+import configManager from '../utils/managerConfigs.js';
 
 // 📌 Fonction d'auto-réaction
 export async function reaction(msg, sock, emoji, autoreact) {
