@@ -1,6 +1,6 @@
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴
-// 📂 Config Manager
+// 📂 Config Manager (VERSION STABLE)
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import fs from "fs";
@@ -29,10 +29,13 @@ function loadConfig() {
         if (fs.existsSync(CONFIG_PATH)) {
             const data = fs.readFileSync(CONFIG_PATH, "utf8");
             return JSON.parse(data);
+        } else {
+            console.warn("⚠️ Aucun config.json trouvé, création par défaut...");
+            saveConfigSync(defaultConfig);
+            return { ...defaultConfig };
         }
-        return { ...defaultConfig };
     } catch (err) {
-        console.error("⚠️ [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Erreur chargement config:", err);
+        console.error("⚠️ Erreur chargement config:", err);
         return { ...defaultConfig };
     }
 }
@@ -41,10 +44,25 @@ async function saveConfig(config) {
     try {
         const tempPath = CONFIG_PATH + ".tmp";
         await fsp.writeFile(tempPath, JSON.stringify(config, null, 2), "utf8");
-        await fsp.rename(tempPath, CONFIG_PATH);
+
+        try {
+            await fsp.rename(tempPath, CONFIG_PATH);
+        } catch (err) {
+            console.warn("⚠️ Rename échoué, tentative écriture directe...");
+            await fsp.writeFile(CONFIG_PATH, JSON.stringify(config, null, 2), "utf8");
+        }
     } catch (err) {
-        console.error("⚠️ [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Erreur sauvegarde config:", err);
+        console.error("❌ Erreur sauvegarde config:", err);
         throw err;
+    }
+}
+
+// Sauvegarde synchrone (fallback pour init)
+function saveConfigSync(config) {
+    try {
+        fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), "utf8");
+    } catch (err) {
+        console.error("❌ Erreur saveConfigSync:", err);
     }
 }
 
@@ -100,13 +118,8 @@ const configManager = {
     config,
 
     async save() {
-        try {
-            await saveConfig(this.config);
-            console.log("💾 [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Configuration sauvegardée.");
-        } catch (err) {
-            console.error("⚠️ [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Erreur configManager.save:", err);
-            throw err;
-        }
+        await saveConfig(this.config);
+        console.log("💾 Configuration sauvegardée.");
     },
 
     getUser,
@@ -116,13 +129,13 @@ const configManager = {
 
     reload() {
         this.config = loadConfig();
-        console.log("♻️ [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Configuration rechargée.");
+        console.log("♻️ Configuration rechargée.");
         return this.config;
     },
 
     reset() {
         this.config = { ...defaultConfig };
-        console.log("🗿 [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Configuration réinitialisée.");
+        console.log("🗿 Configuration réinitialisée.");
         return this.save();
     },
 };
@@ -131,12 +144,12 @@ const configManager = {
 // 💾 Sauvegarde Auto Exit
 //━━━━━━━━━━━━━━━━━━━━━━━
 process.on("SIGINT", async () => {
-    console.log("🛑 [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Sauvegarde config avant arrêt...");
+    console.log("🛑 Sauvegarde config avant arrêt...");
     try {
         await configManager.save();
         process.exit(0);
     } catch (err) {
-        console.error("❌ [🎴𝛫𝑈𝑅𝛩𝛮𝛥🎴] Erreur sauvegarde en sortie:", err);
+        console.error("❌ Erreur sauvegarde en sortie:", err);
         process.exit(1);
     }
 });
