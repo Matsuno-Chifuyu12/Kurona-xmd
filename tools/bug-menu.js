@@ -5,7 +5,7 @@
 
 import fs from "fs";
 import path from "path";
-import configManager from '../../libs/config.js';
+import configManager from '../utils/managerConfigs.js'; 
 
 export async function bugMenu(message, client) {
     try {
@@ -52,6 +52,13 @@ export async function bugMenu(message, client) {
         // ✅ Chemins absolus vers /assets
         const videoPath = path.resolve("./assets/videos/bug.mp4");
         const audioPath = path.resolve("./assets/audio/bug.m4a");
+
+        // Vérification des fichiers
+        if (!fs.existsSync(videoPath) || !fs.existsSync(audioPath)) {
+            return client.sendMessage(remoteJid, {
+                text: "⚠️ Fichiers média manquants dans /assets/"
+            });
+        }
 
         // Envoi vidéo avec caption du menu
         const videoMsg = await client.sendMessage(remoteJid, {
