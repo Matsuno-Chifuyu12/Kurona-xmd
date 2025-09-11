@@ -1,9 +1,9 @@
-import configManager from '../utils/manageConfigs.js';
+import configManager from '../utils/managerConfigs.js';
 
 // Cache utilisateur
 const userNumberCache = new Map();
 
-// Obtenir le numéro de l’utilisateur
+// Obtenir le numéro de l'utilisateur
 function getUserNumber(client) {
     if (!client?.user?.id) return null;
     const clientId = client.user.id;
@@ -19,7 +19,7 @@ async function updatePresenceSafely(client, presence, remoteJid) {
         await client.sendPresenceUpdate(presence, remoteJid);
         return true;
     } catch (error) {
-        console.error("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ [AUTO] Erreur présence (" + presence + "):\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯", error.message);
+        console.error("Erreur présence (" + presence + "):", error.message);
         return false;
     }
 }
@@ -34,48 +34,31 @@ function clearExistingTimeout(remoteJid) {
     }
 }
 
-// Activer le mode auto-record
-export async function autorecord(message, client) {
-    if (!message?.key?.remoteJid || !client) return;
-    const remoteJid = message.key.remoteJid;
-    const number = getUserNumber(client);
-    if (!number) return;
-
-    const state = configManager.config?.users[number]?.record;
-    if (!state) return;
-
-    clearExistingTimeout(remoteJid);
-    const success = await updatePresenceSafely(client, 'recording', remoteJid);
-
-    if (success) {
-        const timeoutId = setTimeout(async () => {
-            await updatePresenceSafely(client, 'available', remoteJid);
-            timeoutHandlers.delete(remoteJid);
-        }, 5000);
-        timeoutHandlers.set(remoteJid, timeoutId);
-    }
+// Fonctions de base pour auto.js
+export function respons(msg, sock) {
+    // Fonction de réponse automatique
+    console.log("Auto response feature");
 }
 
-// Activer le mode auto-type
-export async function autotype(message, client) {
-    if (!message?.key?.remoteJid || !client) return;
-    const remoteJid = message.key.remoteJid;
-    const number = getUserNumber(client);
+export function autotype(msg, sock) {
+    if (!msg?.key?.remoteJid || !sock) return;
+    const remoteJid = msg.key.remoteJid;
+    const number = getUserNumber(sock);
     if (!number) return;
 
     const state = configManager.config?.users[number]?.type;
     if (!state) return;
 
     clearExistingTimeout(remoteJid);
-    const success = await updatePresenceSafely(client, 'composing', remoteJid);
-
-    if (success) {
-        const timeoutId = setTimeout(async () => {
-            await updatePresenceSafely(client, 'available', remoteJid);
-            timeoutHandlers.delete(remoteJid);
-        }, 5000);
-        timeoutHandlers.set(remoteJid, timeoutId);
-    }
+    updatePresenceSafely(sock, 'composing', remoteJid).then(success => {
+        if (success) {
+            const timeoutId = setTimeout(async () => {
+                await updatePresenceSafely(sock, 'available', remoteJid);
+                timeoutHandlers.delete(remoteJid);
+            }, 5000);
+            timeoutHandlers.set(remoteJid, timeoutId);
+        }
+    });
 }
 
 // Nettoyage complet
@@ -85,4 +68,4 @@ export function cleanupPresenceTimers() {
     userNumberCache.clear();
 }
 
-export default { autorecord, autotype, cleanupPresenceTimers };
+export default { respons, autotype, cleanupPresenceTimers };
