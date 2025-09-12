@@ -12,19 +12,54 @@ import group from '../tools/group.js';
 
 const SESSIONS_FILE = "sessions.json";
 const sessions = {};
-const RECONNECT_DELAY = 5000; // 5 secondes entre les reconnexions
+const RECONNECT_DELAY = 5000;
 
 function saveSessionNumber(number) {
-    // [Votre code existant]
+    let sessionsList = [];
+
+    if (fs.existsSync(SESSIONS_FILE)) {
+        try {
+            const data = JSON.parse(fs.readFileSync(SESSIONS_FILE));
+            sessionsList = Array.isArray(data.sessions) ? data.sessions : [];
+        } catch (err) {
+            console.error("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Error reading sessions file:\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯", err.message);
+            sessionsList = [];
+        }
+    }
+
+    if (!sessionsList.includes(number)) {
+        sessionsList.push(number);
+        fs.writeFileSync(SESSIONS_FILE, JSON.stringify({ sessions: sessionsList }, null, 2));
+        console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Session number " + number + " saved.\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+    }
 }
 
 function removeSession(number) {
-    // [Votre code existant]
+    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Removing session data for " + number + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+
+    if (fs.existsSync(SESSIONS_FILE)) {
+        let sessionsList = [];
+        try {
+            const data = JSON.parse(fs.readFileSync(SESSIONS_FILE));
+            sessionsList = Array.isArray(data.sessions) ? data.sessions : [];
+        } catch (err) {
+            console.error("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Error reading sessions file:\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯", err.message);
+        }
+
+        sessionsList = sessionsList.filter(num => num !== number);
+        fs.writeFileSync(SESSIONS_FILE, JSON.stringify({ sessions: sessionsList }, null, 2));
+    }
+
+    const sessionPath = `./sessions/${number}`;
+    if (fs.existsSync(sessionPath)) fs.rmSync(sessionPath, { recursive: true, force: true });
+
+    delete sessions[number];
+    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ✅ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Session for " + number + " fully removed.\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
 }
 
 async function startSession(targetNumber, handler = handleIncomingMessage, n) {
     try {
-        console.log(`╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴 𝛫 𝑈 𝑅 𝛩 𝛮 𝛥 — 𝑿 𝛭 𝑫 🎴 |\n Starting session for: ${targetNumber}\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯`);
+        console.log(`╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴\n|Starting session for: ${targetNumber}\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯`);
         
         const sessionPath = `./sessions/${targetNumber}`;
         if (!fs.existsSync(sessionPath)) {
@@ -35,14 +70,12 @@ async function startSession(targetNumber, handler = handleIncomingMessage, n) {
 
         const sock = makeWASocket({
             auth: state,
-            printQRInTerminal: false,
+            printQRInTerminal: false, // Désactivé car on utilise pairing code
             syncFullHistory: false,
             markOnlineOnConnect: false,
-            // Ajout de options de connexion plus robustes
             connectTimeoutMs: 60000,
             keepAliveIntervalMs: 25000,
             browser: ["KURONA MD", "Chrome", "4.0.0"],
-            logger: console, // Active les logs pour debug
         });
 
         // Gestion des erreurs globales du socket
@@ -53,13 +86,21 @@ async function startSession(targetNumber, handler = handleIncomingMessage, n) {
         // Sauvegarde des credentials
         sock.ev.on('creds.update', saveCreds);
 
+        // Génération du pairing code immédiatement
+        if (!state.creds.registered) {
+            try {
+                const code = await sock.requestPairingCode(targetNumber.replace(/[^0-9]/g, ''), "KURONAMD");
+                console.log(`╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 📲 PAIRING CODE: ${code}\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯`);
+                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 👉 Enter this code on your WhatsApp phone app to pair\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+            } catch (pairError) {
+                console.error('❌ Pairing failed:', pairError.message);
+                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ Failed to generate pairing code\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+            }
+        }
+
         // Gestion de la connexion
         sock.ev.on('connection.update', async (update) => {
-            const { connection, lastDisconnect, qr } = update;
-            
-            if (qr) {
-                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 📱 QR Code Generated\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-            }
+            const { connection, lastDisconnect } = update;
 
             if (connection === 'close') {
                 const statusCode = lastDisconnect?.error?.output?.statusCode;
@@ -78,16 +119,7 @@ async function startSession(targetNumber, handler = handleIncomingMessage, n) {
                 
             } else if (connection === 'open') {
                 console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ✅ Connected successfully!\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-                
-                // Vérification de l'enregistrement
-                if (!state.creds.registered) {
-                    try {
-                        const code = await sock.requestPairingCode(targetNumber.replace(/[^0-9]/g, ''), "KURONAMD");
-                        console.log(`╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 📲 Pairing Code: ${code}\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯`);
-                    } catch (pairError) {
-                        console.error('❌ Pairing failed:', pairError.message);
-                    }
-                }
+                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴 𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫 🎴 READY!\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
             }
         });
 
@@ -112,7 +144,28 @@ async function startSession(targetNumber, handler = handleIncomingMessage, n) {
         sessions[targetNumber] = sock;
         saveSessionNumber(targetNumber);
 
-        // [Le reste de votre code config...]
+        // Create user config if n is set
+        if (n) {
+            configManager.config.users[`${targetNumber}`] = {
+                sudoList: [],
+                tagAudioPath: "tag.mp3",
+                antilink: false,
+                response: true,
+                autoreact: false,
+                prefix: ".",
+                welcome: false,
+                record: false,
+                type: false,
+            };
+            configManager.save();
+        }
+
+        // Ensure root user structure
+        configManager.config = configManager.config || {};
+        configManager.config.users = configManager.config.users || {};
+        configManager.config.users["root"] = configManager.config.users["root"] || {};
+        configManager.config.users["root"].primary = `${targetNumber}`;
+        configManager.save();
 
         return sock;
 
