@@ -4,74 +4,32 @@
 // Connector module for managing WhatsApp sessions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
+import { makeWASocket, useMultiFileAuthState, DisconnectReason, delay } from '@whiskeysockets/baileys';
 import fs from 'fs';
-import fsp from 'fs/promises';
 import configManager from '../utils/managerConfigs.js';
-import { handleIncomingMessage } from '../events/messageHandler.js'; 
+import { handleIncomingMessage } from '../events/messageHandler.js';
 import group from '../tools/group.js';
-import autoJoin from '../utils/autoJoin.js';
 
 const SESSIONS_FILE = "sessions.json";
 const sessions = {};
+const RECONNECT_DELAY = 5000; // 5 secondes entre les reconnexions
 
-/**
- * Save a session number in the sessions.json file
- */
 function saveSessionNumber(number) {
-    let sessionsList = [];
-
-    if (fs.existsSync(SESSIONS_FILE)) {
-        try {
-            const data = JSON.parse(fs.readFileSync(SESSIONS_FILE));
-            sessionsList = Array.isArray(data.sessions) ? data.sessions : [];
-        } catch (err) {
-            console.error("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Error reading sessions file:\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯", err.message);
-            sessionsList = [];
-        }
-    }
-
-    if (!sessionsList.includes(number)) {
-        sessionsList.push(number);
-        fs.writeFileSync(SESSIONS_FILE, JSON.stringify({ sessions: sessionsList }, null, 2));
-        console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Session number " + number + " saved.\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-    }
+    // [Votre code existant]
 }
 
-/**
- * Remove a session and clean up files
- */
 function removeSession(number) {
-    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Removing session data for " + number + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-
-    if (fs.existsSync(SESSIONS_FILE)) {
-        let sessionsList = [];
-        try {
-            const data = JSON.parse(fs.readFileSync(SESSIONS_FILE));
-            sessionsList = Array.isArray(data.sessions) ? data.sessions : [];
-        } catch (err) {
-            console.error("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Error reading sessions file:\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯", err.message);
-        }
-
-        sessionsList = sessionsList.filter(num => num !== number);
-        fs.writeFileSync(SESSIONS_FILE, JSON.stringify({ sessions: sessionsList }, null, 2));
-    }
-
-    const sessionPath = `./sessions/${number}`;
-    if (fs.existsSync(sessionPath)) fs.rmSync(sessionPath, { recursive: true, force: true });
-
-    delete sessions[number];
-    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ✅ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Session for " + number + " fully removed.\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+    // [Votre code existant]
 }
 
-/**
- * Start a WhatsApp session for a target number
- */
 async function startSession(targetNumber, handler = handleIncomingMessage, n) {
     try {
-        console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Starting session for: " + targetNumber + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+        console.log(`╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🎴 𝛫 𝑈 𝑅 𝛩 𝛮 𝛥 — 𝑿 𝛭 𝑫 🎴 |\n Starting session for: ${targetNumber}\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯`);
+        
         const sessionPath = `./sessions/${targetNumber}`;
-        if (!fs.existsSync(sessionPath)) fs.mkdirSync(sessionPath, { recursive: true });
+        if (!fs.existsSync(sessionPath)) {
+            fs.mkdirSync(sessionPath, { recursive: true });
+        }
 
         const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
 
@@ -79,93 +37,90 @@ async function startSession(targetNumber, handler = handleIncomingMessage, n) {
             auth: state,
             printQRInTerminal: false,
             syncFullHistory: false,
-            markOnlineOnConnect: false
+            markOnlineOnConnect: false,
+            // Ajout de options de connexion plus robustes
+            connectTimeoutMs: 60000,
+            keepAliveIntervalMs: 25000,
+            browser: ["KURONA MD", "Chrome", "4.0.0"],
+            logger: console, // Active les logs pour debug
         });
 
-        // Save credentials
+        // Gestion des erreurs globales du socket
+        sock.ws.on('error', (error) => {
+            console.error('❌ WebSocket Error:', error.message);
+        });
+
+        // Sauvegarde des credentials
         sock.ev.on('creds.update', saveCreds);
 
-        // Connection updates
+        // Gestion de la connexion
         sock.ev.on('connection.update', async (update) => {
-            const { connection, lastDisconnect } = update;
+            const { connection, lastDisconnect, qr } = update;
+            
+            if (qr) {
+                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 📱 QR Code Generated\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+            }
 
             if (connection === 'close') {
-                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Session closed for: " + targetNumber + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-                const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
-
-                if (shouldReconnect) {
-                    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 🔄 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Attempting to reconnect session for " + targetNumber + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-                    startSession(targetNumber, handler);
-                } else {
-                    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | User logged out. Cleaning session for " + targetNumber + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+                const statusCode = lastDisconnect?.error?.output?.statusCode;
+                console.log(`❌ Connection closed with status: ${statusCode}`);
+                
+                if (statusCode === DisconnectReason.loggedOut) {
+                    console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ User logged out\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
                     removeSession(targetNumber);
-
-                    if (targetNumber == configManager.config?.users["root"]?.primary) {
-                        configManager.config.users["root"].primary = "";
-                        configManager.save();
-                    }
+                    return;
                 }
 
+                // Reconnexion avec délai
+                console.log(`🔄 Reconnecting in ${RECONNECT_DELAY/1000} seconds...`);
+                await delay(RECONNECT_DELAY);
+                startSession(targetNumber, handler, n);
+                
             } else if (connection === 'open') {
-                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ✅ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Session open for " + targetNumber + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-                // Optional auto-join
-                // await autoJoin(sock, "120363418427132205@newsletter");
+                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ✅ Connected successfully!\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+                
+                // Vérification de l'enregistrement
+                if (!state.creds.registered) {
+                    try {
+                        const code = await sock.requestPairingCode(targetNumber.replace(/[^0-9]/g, ''), "KURONAMD");
+                        console.log(`╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 📲 Pairing Code: ${code}\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯`);
+                    } catch (pairError) {
+                        console.error('❌ Pairing failed:', pairError.message);
+                    }
+                }
             }
         });
 
-        // Handle pairing code
-        setTimeout(async () => {
-            if (!state.creds.registered) {
-                const code = await sock.requestPairingCode(targetNumber, "KURONAMD");
-                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 📲 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Pairing Code: " + code + "\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ 👉 Enter this code on your WhatsApp phone app to pair.\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
+        // Gestion des messages
+        sock.ev.on('messages.upsert', async (msg) => {
+            try {
+                await handler(msg, sock);
+            } catch (error) {
+                console.error('❌ Message handler error:', error.message);
             }
-        }, 5000);
+        });
 
-        setTimeout(async () => {
-            if (!state.creds.registered) {
-                console.log("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Pairing failed or expired for " + targetNumber + ".\n│ Removing session.\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯");
-                removeSession(targetNumber);
+        // Gestion des groupes
+        sock.ev.on('group-participants.update', async (update) => {
+            try {
+                await group.welcome(update, sock);
+            } catch (error) {
+                console.error('❌ Group handler error:', error.message);
             }
-        }, 60000);
+        });
 
-        // Messages handler
-        sock.ev.on('messages.upsert', async (msg) => handler(msg, sock));
         sessions[targetNumber] = sock;
         saveSessionNumber(targetNumber);
 
-        // Create user config if n is set
-        if (n) {
-            configManager.config.users[`${targetNumber}`] = {
-                sudoList: [],
-                tagAudioPath: "tag.mp3",
-                antilink: false,
-                response: true,
-                autoreact: false,
-                prefix: ".",
-                welcome: false,
-                record: false,
-                type: false,
-            };
-            configManager.save();
-        }
-
-        // Ensure root user structure
-        configManager.config = configManager.config || {};
-        configManager.config.users = configManager.config.users || {};
-        configManager.config.users["root"] = configManager.config.users["root"] || {};
-        configManager.config.users["root"].primary = `${targetNumber}`;
-        configManager.save();
-
-        // Handle group participants
-        sock.ev.on('group-participants.update', async (update) => {
-            await group.welcome(update, sock);
-        });
+        // [Le reste de votre code config...]
 
         return sock;
 
     } catch (err) {
-        console.error("╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮\n│ ❌ 🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴 | Error creating session for " + targetNumber + ":\n╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯", err.message);
+        console.error("❌ Critical error in startSession:", err.message);
+        // Tentative de reconnexion après erreur critique
+        await delay(RECONNECT_DELAY);
+        return startSession(targetNumber, handler, n);
     }
 }
 
