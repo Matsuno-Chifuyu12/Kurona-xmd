@@ -8,7 +8,7 @@ import { makeWASocket, useMultiFileAuthState, DisconnectReason, delay } from '@w
 import fs from "fs";
 import fsp from "fs/promises";
 import configManager from '../utils/managerConfigs.js';
-import handleIncomingMessage from '../events/messageHandler.js';
+import { handleIncomingMessage } from '../events/messageHandler.js';
 import group from '../tools/group.js';
 import autoJoin from '../utils/autoJoin.js';
 
