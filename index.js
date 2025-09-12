@@ -14,8 +14,17 @@ import {
   fetchLatestBaileysVersion 
 } from "@whiskeysockets/baileys";
 import Pino from "pino";
-import configManager from "./utils/managerConfigs.js";
-import connectToWhatsApp from "./auth/authHandler.js";  // 🔥 ajout du chemin
+
+// Gestion d'erreur pour l'importation de configManager
+let configManager;
+try {
+  configManager = (await import("./utils/managerConfigs.js")).default;
+} catch (e) {
+  console.log("⚠️ Using default configuration");
+  configManager = { config: { bot: { name: "Kurona-XMD", version: "1.0.0" } } };
+}
+
+import connectToWhatsApp from "./auth/authHandler.js";  
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // VARS
@@ -23,7 +32,7 @@ import connectToWhatsApp from "./auth/authHandler.js";  // 🔥 ajout du chemin
 const _s = (x) => Buffer.from(x, "base64").toString("utf8");
 const R = _s("aHR0cHM6Ly9naXRodWIuY29tL01hdHN1bm8tY2hpZnV5dTEyL2t1cm9uYS14bWQ="); 
 const T = p.join(process.cwd(), _s("LnRlbXBfYm90X3VwZGF0ZQ==")); // ".temp_bot_update"
-const AUTH_FOLDER = "auth_baileys";
+const AUTH_FOLDER = p.join(process.cwd(), "auth_baileys"); // Chemin absolu
 let reconnectAttempts = 0;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
