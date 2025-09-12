@@ -3,21 +3,8 @@
 // The Ultimate WhatsApp Experience
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
-import readline from 'readline';
-import p from 'path';
-
-// Définir AUTH_FOLDER ici pour qu'elle soit accessible
-const AUTH_FOLDER = p.join(process.cwd(), 'auth_baileys');
-
-// Gestion d'erreur pour l'importation de configManager
-let configManager;
-try {
-  configManager = (await import("../utils/managerConfigs.js")).default;
-} catch (e) {
-  console.log("⚠️ Using default configuration");
-  configManager = { config: { bot: { name: "Kurona-XMD", version: "1.0.0" } } };
-}
+import readline from "readline";
+import startSession from "../utils/connector.js";
 
 // Bannière ASCII
 const banner = [
@@ -35,98 +22,36 @@ const banner = [
     "╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯",
 ];
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+
+function sleep(ms) { return new Promise(res => setTimeout(res, ms)); }
 
 async function typewriterBanner() {
-    for (let line of banner) {
-        for (let char of line) {
-            process.stdout.write(char);
-            await sleep(5); // vitesse d'apparition, 5ms par caractère
-        }
-        process.stdout.write("\n");
-        await sleep(50); // pause entre chaque ligne
-    }
+  for (const line of banner) {
+    for (const char of line) process.stdout.write(char) && await sleep(5);
+    process.stdout.write("\n");
+    await sleep(50);
+  }
 }
 
-// Fonction pour récupérer le numéro utilisateur via CLI
-async function promptUserNumber() {
-    return new Promise((resolve) => {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-
-        rl.question("📱 Entrez votre numéro WhatsApp : ", (answer) => {
-            rl.close();
-            resolve(answer.trim());
-        });
-    });
+function promptUserNumber() {
+  return new Promise(resolve => {
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    rl.question("📱 Entrez votre numéro WhatsApp : ", answer => { rl.close(); resolve(answer.trim()); });
+  });
 }
 
-// Fonction simplifiée pour lancer la session WhatsApp
-async function startSession(number, handleMessage, firstTime = false) {
-    try {
-        console.log(`🔗 Connexion à WhatsApp avec le numéro : ${number}...`);
-        
-        const { state, saveCreds } = await useMultiFileAuthState(AUTH_FOLDER);
-        const { version } = await fetchLatestBaileysVersion();
-        
-        const sock = makeWASocket({
-            version,
-            logger: Pino({ level: "silent" }),
-            printQRInTerminal: true,
-            auth: {
-                creds: state.creds,
-                keys: makeCacheableSignalKeyStore(state.keys, Pino({ level: "fatal" })),
-            },
-        });
-
-        sock.ev.on('connection.update', (update) => {
-            const { connection, lastDisconnect } = update;
-            if (connection === 'close') {
-                const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
-                console.log(shouldReconnect ? 'Connection closed. Reconnecting...' : 'Connection closed. You are logged out.');
-            } else if (connection === 'open') {
-                console.log('Connected successfully!');
-            }
-        });
-
-        sock.ev.on('creds.update', saveCreds);
-        sock.ev.on('messages.upsert', handleMessage);
-
-        return sock;
-    } catch (err) {
-        console.error('❌ Erreur lors de la connexion à WhatsApp :', err);
-        throw err;
-    }
+async function connectWithNumber(number, handleMessage) {
+  try {
+    console.log(`\n🔗 Connexion à WhatsApp avec : ${number}...\n`);
+    await startSession(number, handleMessage); // startSession doit retourner socket actif
+  } catch (err) {
+    console.error("❌ Erreur lors de la connexion :", err);
+    process.exit(1);
+  }
 }
 
-// Fonction pour lancer la session WhatsApp
-async function connectWithNumber(number, firstTime = false, handleMessage) {
-    try {
-        console.log(`\n🔗 Connexion à WhatsApp avec le numéro : ${number}...\n`);
-        await startSession(number, handleMessage, firstTime);
-    } catch (err) {
-        console.error('❌ Erreur lors de la connexion à WhatsApp :', err);
-        process.exit(1);
-    }
+export default async function connectToWhatsApp(handleMessage) {
+  await typewriterBanner();
+  const number = await promptUserNumber();
+  await connectWithNumber(number, handleMessage);
 }
-
-// Fonction principale pour connecter le bot
-async function connectToWhatsApp(handleMessage) {
-    await typewriterBanner();
-
-    console.log(`
-╭┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╮
-┃          🎴𝛫𝑈𝑅𝛩𝛮𝛥 — 𝑿𝛭𝑫🎴
-┃    𝐓𝐡𝐞 𝐔𝐥𝐭𝐢𝐦𝐚𝐭𝐞 𝐖𝐡𝐚𝐭𝐬𝐀𝐩𝐩 𝐄𝐱𝐩𝐞𝐫𝐢𝐞𝐧𝐜𝐞
-╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
-    `);
-
-    const number = await promptUserNumber();
-    await connectWithNumber(number, true, handleMessage);
-}
-
-export default connectToWhatsApp;
