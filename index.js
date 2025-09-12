@@ -6,7 +6,6 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-import connectToWhatsApp from "./auth/authHandler.js";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // VARS
@@ -56,6 +55,9 @@ function syncRepo() {
     console.log("🔁 Copying new files...");
     copyRecursive(TEMP_DIR, process.cwd());
     fs.rmSync(TEMP_DIR, { recursive: true, force: true });
+
+    // 🔥 IMPORTATION APRÈS la copie des fichiers
+    const { default: connectToWhatsApp } = await import("./auth/authHandler.js");
 
     // 🔥 Lancement du handler principal
     connectToWhatsApp((sock, msg) => {
