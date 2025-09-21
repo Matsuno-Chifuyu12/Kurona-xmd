@@ -3,7 +3,7 @@
 //  The Ultimate WhatsApp Experience
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import configManager from "../utils/manageConfigs.js";
+import configManager from "../utils/managerConfigs.js";
 
 export async function info(message, client) {
     try {
@@ -41,28 +41,35 @@ export async function info(message, client) {
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 
 ╭┅┅┅┅ ✨MENU✨ ┅┅┅┅╮
-┃➺menu
-┃➺premium
-┃➺bug-menu
+┃⟶menu
+┃⟶premium
+┃⟶bug-menu
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 ╭┅┅ 🧰𝐔𝐓𝐈𝐋𝐒🧰 ┅┅╮
-┃➙ping
-┃➙sudo
 ┃➙device
 ┃➙delsudo
+┃➙getid
 ┃➙getsudo
-┃➙autoreact
-┃➙setprefix
-┃➙autotype
+┃➙fancy
+┃➙owner
+┃➙ping
+┃➙sudo
+┃➙udapte
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅╯
+╭┅┅┅ 👤𝐀𝐔𝐓𝐎𝐍𝐎𝐌𝐄👤 ┅┅┅╮
+┃➳autotype
+┃➳autoreact
+┃➳autorecord
+┃➳setprefix
+┃➳getconfig
+╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 ╭┅┅┅ 📥𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃𝐄𝐑📥 ┅┅┅╮
-┃➳ytmp3 
-┃➳ytmp4 
-┃➳play 
-┃➳tiktok 
-┃➳fb 
-┃➳ig 
-┃➳pin
+┃⇒ytmp3 
+┃⇒ytmp4 
+┃⇒play 
+┃⇒tiktok 
+┃⇒fb 
+┃⇒ig 
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 ╭┅┅┅┅ 👑𝐆𝐑𝐎𝐔𝐏 𝐌𝐀𝐍𝐀𝐆𝐄👑 ┅┅┅┅╮
 ┃➺promote
@@ -82,12 +89,12 @@ export async function info(message, client) {
 ┃➺bye
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 ╭┅┅┅ 💾𝐌𝐄𝐃𝐈𝐀💾 ┅┅┅╮
-┃➙sticker
-┃➙toaudio
-┃➙photo
-┃➙vv
-┃➙take
-┃➙save
+┃⮕sticker
+┃⮕toaudio
+┃⮕photo
+┃⮕vv
+┃⮕take
+┃⮕save
 ╰┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅╯
 ╭┅┅┅ 📢𝐓𝐀𝐆📢 ┅┅┅╮
 ┃➳tagall 
