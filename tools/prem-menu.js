@@ -48,7 +48,7 @@ export async function prem(message, client) {
 `;
 
     await client.sendMessage(remoteJid, {
-        image: { url: "./assets/images/menu.jpg" }, // <-- image locale dans ton dossier
+        image: { url: "./assets/images/prem-menu.jpg" }, 
         caption: t,
         quoted: message
     });
