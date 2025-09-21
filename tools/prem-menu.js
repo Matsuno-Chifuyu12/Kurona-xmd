@@ -3,7 +3,7 @@
 // Commande : prem
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import configManager from '../utils/manageConfigs.js';
+import configManager from '../utils/managerConfigs.js';
 
 export async function prem(message, client) {
 
